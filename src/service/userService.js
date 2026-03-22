@@ -28,6 +28,35 @@ const createNewUser = async (email, password, username) => {
 
 
 const getUserList = async () => {
+    //test relationship
+    let newUser = await db.User.findOne({
+        where: { id: 1 },
+        attributes: ["id", "username", "email"],
+        include: { model: db.Group, attributes: ["name", "description"] },
+        raw: true,
+        nest: true
+    })
+
+    // let roles = await db.Group.findOne({
+    //     include: [{ model: db.Role}],
+    //     raw: true,
+    //     nest: true
+    // })
+
+    let r = await db.Group.findAll({
+        include: { model: db.Role, where: { id: 1 } },
+        raw: true,
+        nest: true
+    })
+
+    console.log(">>> check newUser: ", newUser);
+    console.log(">>> check roles: ", r);
+
+
+
+
+
+
     // // get the promise implementation, we will use bluebird
     // // create the connection, specify bluebird as Promise
     // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
